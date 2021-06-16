@@ -4,9 +4,9 @@ import { createPortal } from 'react-dom';
 import classes from './Modal.module.css';
 
 // Componente que se encarga de oscurecer el fondo.
-const Backdrop = () => {
+const Backdrop = (props) => {
   return (
-    <div className={classes.backdrop} />
+    <div className={classes.backdrop} onClick={props.onClose} />
   );
 }
 
@@ -27,7 +27,7 @@ const portalElement = document.getElementById('overlays');
 const Modal = (props) => {
   return (
     <Fragment>
-      {createPortal(<Backdrop />, portalElement)}
+      {createPortal(<Backdrop onClose={props.onCloseModal} />, portalElement)}
       {createPortal(<ModalOverlay>{props.children}</ModalOverlay>, portalElement)}
     </Fragment>
   );
@@ -50,4 +50,8 @@ export default Modal;
 // export default Modal;
 
 
-// OBS: Los componentes que se usarán para crear el Modal se implementarán dentro del archivo Modal.js ya que ambos estan MUY vinculados.
+// OBS: Los componentes que se usarán para crear el Modal se implementarán dentro del archivo Modal.js ya que ambos estan MUY vinculados. Aunque si quisieramos podríamos separarlos.  
+
+// OBS: Al componente ModalOverlay debemos pasarle {props.children} entre las etiquetas de apertura y de cierre para que se pueda utilizar para que se pueda utilizar con el contenido que irá dentro del Componente ModalOverlay. 
+
+// OBS: Técnicamente no tenemos que usar un portal, PERO para asegurarnos de que nuestro código no esté por todas partes en la aplicación, usaremos portales. 
